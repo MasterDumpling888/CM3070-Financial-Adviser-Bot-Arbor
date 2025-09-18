@@ -1,4 +1,6 @@
 # Financial Advisor Bot
+## Setup Tutorial
+https://youtu.be/VGD1pPXQCmI
 
 ## Overview
 
