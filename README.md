@@ -1,8 +1,9 @@
-
 <img width="1584" height="396" alt="Slide 16_9 - 17" src="https://github.com/user-attachments/assets/44917f54-2c74-404d-891d-bad9a59bbca0" />
 
 # Financial Advisor Bot
+
 ## Setup Tutorial
+
 https://youtu.be/VGD1pPXQCmI
 
 ## Overview
@@ -74,20 +75,8 @@ The backend uses Firebase Firestore for data persistence. You will need to creat
     - Rename the downloaded JSON file to `serviceAccountKey.json`.
     - Place this file in the `backend/` directory.
 
-### Frontend Environment Variables
-
-Create a `.env.local` file in the `frontend` directory and add the following content. You will get these values from your Firebase project settings.
-
-```bash
-NEXT_PUBLIC_FIREBASE_API_KEY=""
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=""
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=""
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=""
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=""
-NEXT_PUBLIC_FIREBASE_APP_ID=""
-```
-
 ### Trade Data
+
 The `trade_data_sp500.csv` file, located in the `backend/inference_engine/` directory, is managed using Git LFS (Large File Storage) due to its size. To download this file, you will need to have Git LFS installed.
 
 1.  **Install Git LFS:** Follow the instructions on the [Git LFS website](https://git-lfs.github.com/) to install it on your machine.
