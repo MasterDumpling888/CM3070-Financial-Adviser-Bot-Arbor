@@ -87,6 +87,15 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=""
 NEXT_PUBLIC_FIREBASE_APP_ID=""
 ```
 
+### Trade Data
+The `trade_data_sp500.csv` file, located in the `backend/inference_engine/` directory, is managed using Git LFS (Large File Storage) due to its size. To download this file, you will need to have Git LFS installed.
+
+1.  **Install Git LFS:** Follow the instructions on the [Git LFS website](https://git-lfs.github.com/) to install it on your machine.
+2.  **Pull the LFS files:** Once Git LFS is installed, run the following command in your terminal to download the large files:
+    ```bash
+    git lfs pull
+    ```
+
 ### Running the Application
 
 #### Backend
