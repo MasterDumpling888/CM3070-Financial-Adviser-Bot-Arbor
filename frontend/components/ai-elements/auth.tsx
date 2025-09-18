@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User, UserCredential } from 'firebase/auth';
+import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User, UserCredential, sendPasswordResetEmail } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
@@ -15,6 +15,7 @@ type AuthContextType = {
   signin: (email: string, password: string) => Promise<UserCredential>;
   signup: (email: string, password: string) => Promise<UserCredential>;
   signout: () => Promise<void>;
+  sendPasswordResetEmail: (email: string) => Promise<void>;
 };
 
 // Create a context for the auth state
@@ -24,11 +25,33 @@ const AuthContext = createContext<AuthContextType>({
   signin: async (email, password) => { throw new Error("Not implemented"); },
   signup: async (email, password) => { throw new Error("Not implemented"); },
   signout: async () => { throw new Error("Not implemented"); },
+  sendPasswordResetEmail: async (email) => { throw new Error("Not implemented"); },
 });
 
 // Custom hook to use the auth context
 export const useAuth = () => {
   return useContext(AuthContext);
+};
+
+export const getFirebaseAuthErrorMessage = (errorCode: string): string => {
+  switch (errorCode) {
+    case 'auth/invalid-email':
+      return 'Invalid email address format.';
+    case 'auth/user-disabled':
+      return 'This user account has been disabled.';
+    case 'auth/user-not-found':
+      return 'User not found. Please check your email or sign up.';
+    case 'auth/wrong-password':
+      return 'Incorrect password. Please try again.';
+    case 'auth/email-already-in-use':
+      return 'This email is already in use by another account.';
+    case 'auth/weak-password':
+      return 'Password is too weak. Please choose a stronger password.';
+    case 'auth/invalid-credential':
+      return 'Invalid credential. Please check your email and password.';
+    default:
+      return 'An unexpected error occurred. Please try again.';
+  }
 };
 
 // Auth provider component
@@ -61,6 +84,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signin: (email: string, password: string) => signInWithEmailAndPassword(auth, email, password),
     signup: (email: string, password: string) => createUserWithEmailAndPassword(auth, email, password),
     signout: () => signOut(auth),
+    sendPasswordResetEmail: (email: string) => sendPasswordResetEmail(auth, email),
   };
 
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;

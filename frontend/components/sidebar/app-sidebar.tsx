@@ -33,6 +33,7 @@ import { useEffect, useState } from 'react';
 import { useChat } from '@/context/ChatContext';
 import { Login } from '@/components/ai-elements/login';
 import { Signup } from '@/components/ai-elements/signup';
+import { ForgotPassword } from '@/components/ai-elements/forgot-password';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
 
@@ -68,8 +69,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [conversations, setConversations] = useState([]);
   const { user, signout } = useAuth();
   const {currentConversationId, setCurrentConversationId, newChat, conversationCreated, setConversationCreated } = useChat();
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isSignupOpen, setIsSignupOpen] = useState(false);
+  const [authView, setAuthView] = useState('login');
+  const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false);
   
   const [renameConversationId, setRenameConversationId] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
@@ -111,13 +112,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   };
 
   const handleSwitchToSignup = () => {
-    setIsSignupOpen(true);
-    setIsLoginOpen(false);
+    setAuthView('signup');
   };
 
   const handleSwitchToLogin = () => {
-    setIsLoginOpen(true);
-    setIsSignupOpen(false);
+    setAuthView('login');
+  };
+
+  const handleSwitchToForgotPassword = () => {
+    setAuthView('forgot-password');
   };
 
   const handleDeleteConversation = async (conversationId) => {
@@ -273,42 +276,50 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <Dialog open={isLoginOpen} onOpenChange={setIsLoginOpen}>
-                <DialogTrigger asChild>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton>
+              <Dialog open={isAuthDialogOpen} onOpenChange={setIsAuthDialogOpen}>
+                <SidebarMenuItem>
+                  <DialogTrigger asChild>
+                    <SidebarMenuButton onClick={() => setAuthView('login')}>
                       <LogIn />
                       Login
                     </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </DialogTrigger>
-                <DialogContent className="w-80  bg-secondary">
-                  <DialogTitle className="hidden">
-                    Sign up link
-                  </DialogTitle>
-                  <DialogDescription className="hidden">
-                    This hyperlink will switch to sign up modal
-                  </DialogDescription>
-                  <Login onLoginSuccess={() => setIsLoginOpen(false)} onSwitchToSignup={handleSwitchToSignup}/>
-                </DialogContent>
-              </Dialog>
-              <Dialog open={isSignupOpen} onOpenChange={setIsSignupOpen}>
-                <DialogTrigger asChild>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton>
+                  </DialogTrigger>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <DialogTrigger asChild>
+                    <SidebarMenuButton onClick={() => setAuthView('signup')}>
                       <UserPlus />
                       Sign up
                     </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </DialogTrigger>
-                <DialogContent className="w-80 bg-secondary">
+                  </DialogTrigger>
+                </SidebarMenuItem>
+                <DialogContent className="w-80  bg-secondary">
                   <DialogTitle className="hidden">
-                    Login link
+                    {authView === 'login' && 'Login'}
+                    {authView === 'signup' && 'Sign Up'}
+                    {authView === 'forgot-password' && 'Forgot Password'}
                   </DialogTitle>
                   <DialogDescription className="hidden">
-                    This hyperlink will switch to login modal
+                    {authView === 'login' && 'Login to your account.'}
+                    {authView === 'signup' && 'Create a new account.'}
+                    {authView === 'forgot-password' && 'Reset your password.'}
                   </DialogDescription>
-                  <Signup onSignupSuccess={() => setIsSignupOpen(false)} onSwitchToLogin={handleSwitchToLogin} />
+                  {authView === 'login' && (
+                    <Login
+                      onLoginSuccess={() => setIsAuthDialogOpen(false)}
+                      onSwitchToSignup={handleSwitchToSignup}
+                      onSwitchToForgotPassword={handleSwitchToForgotPassword}
+                    />
+                  )}
+                  {authView === 'signup' && (
+                    <Signup
+                      onSignupSuccess={() => setIsAuthDialogOpen(false)}
+                      onSwitchToLogin={handleSwitchToLogin}
+                    />
+                  )}
+                  {authView === 'forgot-password' && (
+                    <ForgotPassword onSwitchToLogin={handleSwitchToLogin} />
+                  )}
                 </DialogContent>
               </Dialog>
             </SidebarMenu>

@@ -4,6 +4,8 @@ import { useState, useMemo, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import financialTerms from "@/lib/financial-terms.json";
+import { TooltipButton } from "@/components/ui/tooltip-button";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 type FinancialTerms = {
   [key: string]: {
@@ -58,9 +60,10 @@ const FinancialFlashcards = () => {
   }
 
   return (
+    <TooltipProvider>
     <Card className="card">
       <CardHeader className="card-header">
-        <CardTitle className=" card-title capitalize ">{currentCard.term}</CardTitle>
+        <CardTitle className=" card-title capitalize">{currentCard.term}</CardTitle>
       </CardHeader>
       <CardContent className="card-content">
         <div className="grid grid-cols-1 gap-4">
@@ -89,13 +92,14 @@ const FinancialFlashcards = () => {
             <p className={isCorrect ? "text-green-500" : "text-red-500"}>
               {isCorrect ? "Correct!" : "Incorrect."}
             </p>
-            <Button onClick={generateCard} className="mt-2 btn">
+            <TooltipButton onClick={generateCard} className="mt-2 btn" tooltipContent="Go to the next flashcard">
               Next Card
-            </Button>
+            </TooltipButton>
           </div>
         )}
       </CardContent>
     </Card>
+    </TooltipProvider>
   );
 };
 

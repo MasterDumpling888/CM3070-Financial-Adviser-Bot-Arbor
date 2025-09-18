@@ -3,11 +3,14 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/components/ai-elements/auth';
+import { TooltipButton } from "@/components/ui/tooltip-button";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { db } from '@/lib/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { ChartAreaGradient } from '@/components/charts/area-chart-gradient';
 import { FinancialTerm } from '@/components/ai-elements/financial-term';
 import { toast } from 'sonner';
+import { useState, useEffect } from 'react';
 
 interface CardProps {
   card: {
@@ -44,18 +47,38 @@ interface CardProps {
 
 export const Card = ({ card, isCollapsible = false, onCollapse }: CardProps) => {
   const { user } = useAuth();
+  const [userWatchlist, setUserWatchlist] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchUserWatchlist = async () => {
+      if (user) {
+        try {
+          const response = await fetch(`http://localhost:8000/watchlist/${user.uid}`);
+          if (response.ok) {
+            const data = await response.json();
+            setUserWatchlist(data.watchlist.map((item: any) => item.ticker));
+          }
+        } catch (error) {
+          console.error('Error fetching user watchlist:', error);
+        }
+      } else {
+        setUserWatchlist([]); // Clear watchlist if user logs out
+      }
+    };
+    fetchUserWatchlist();
+  }, [user]);
 
   const handleAddToWatchlist = async () => {
     if (user) {
       const docRef = doc(db, `users/${user.uid}/watchlist`, card.ticker);
       await setDoc(docRef, { ticker: card.ticker, name: card.name || card.ticker });
       toast.success(`${card.ticker} has been added to your watchlist.`);
+      setUserWatchlist((prev) => [...prev, card.ticker]); // Update local state
     }
   };
 
-
-
   return (
+    <TooltipProvider>
     <div className="my-2 rounded-xl">
       {isCollapsible && (
         <div className="flex justify-end">
@@ -66,14 +89,26 @@ export const Card = ({ card, isCollapsible = false, onCollapse }: CardProps) => 
       )}
       <div className="flex items-center justify-between flex-wrap">
         <h3>{card.ticker}</h3>
+        {user && (
+          <div className=' flex justify-center'>
+            <TooltipButton
+              onClick={handleAddToWatchlist}
+              size="sm"
+              className="w-full btn btn-outline"
+              disabled={userWatchlist.includes(card.ticker)}
+              tooltipContent={userWatchlist.includes(card.ticker) ? 'Already in your watchlist' : 'Add this stock to your watchlist'}
+            >
+              {userWatchlist.includes(card.ticker) ? 'In Watchlist' : '+ Add to Watchlist'}
+            </TooltipButton>
+          </div>
+        )}
         <div className='flex flex-wrap'>
           <Badge variant={'default'} className={'badge'}>
             {card.recommendation.action}
           </Badge>
-          
         </div>
       </div>
-      <p className="text-card-secondary">{card.prediction_date}</p>
+        <p className="text-card-secondary">{card.prediction_date}</p>
       <div className="my-2">
         {typeof card.recommendation.summary === 'string'
           ? card.recommendation.summary
@@ -154,11 +189,8 @@ export const Card = ({ card, isCollapsible = false, onCollapse }: CardProps) => 
           </div>
         </div>
       </div>
-      {user && (
-      <div className=' flex w-full justify-center mt-4'>
-        <Button onClick={handleAddToWatchlist} size="sm" className="w-full btn btn-outline">+ Add to Watchlist</Button>
-      </div>
-      )}
+      
     </div>
+    </TooltipProvider>
   );
 };

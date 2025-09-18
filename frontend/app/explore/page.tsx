@@ -9,6 +9,8 @@ import { toast } from 'sonner';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
+import { TooltipButton } from "@/components/ui/tooltip-button";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 interface StockData {
   ticker: string;
@@ -20,6 +22,7 @@ const ExplorePage = () => {
   const [stocks, setStocks] = useState<StockData[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
+  const [userWatchlist, setUserWatchlist] = useState<string[]>([]);
 
   const [searchResults, setSearchResults] = useState<StockData[]>([]);
 
@@ -54,6 +57,25 @@ const ExplorePage = () => {
     fetchTopStocks();
   }, []);
 
+  useEffect(() => {
+    const fetchUserWatchlist = async () => {
+      if (user) {
+        try {
+          const response = await fetch(`http://localhost:8000/watchlist/${user.uid}`);
+          if (response.ok) {
+            const data = await response.json();
+            setUserWatchlist(data.watchlist.map((item: any) => item.ticker));
+          }
+        } catch (error) {
+          console.error('Error fetching user watchlist:', error);
+        }
+      } else {
+        setUserWatchlist([]); // Clear watchlist if user logs out
+      }
+    };
+    fetchUserWatchlist();
+  }, [user]);
+
   const handleSearch = async (term: string) => {
     setSearchTerm(term);
     if (term.trim() === '') {
@@ -83,12 +105,14 @@ const ExplorePage = () => {
       const docRef = doc(db, `users/${user.uid}/watchlist`, stock.ticker);
       await setDoc(docRef, { ticker: stock.ticker, name: stock.name });
       toast.success(`${stock.ticker} has been added to your watchlist.`);
+      setUserWatchlist((prev) => [...prev, stock.ticker]); // Update local state
     }
   };
   
   const stocksToDisplay = searchTerm.trim() !== '' ? searchResults : stocks;
 
   return (
+    <TooltipProvider>
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Explore Stocks</h1>
       <Input
@@ -112,18 +136,29 @@ const ExplorePage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {stocksToDisplay.map((stock) => (
-            <Card key={stock.ticker} className="p-4 rounded-lg flex justify-between items-center gap-2 card border-1">
-              <div className='text-center'>
-                <p className="font-bold text-0">{stock.ticker}</p>
-                <p className="text--1">{stock.name}</p>
-              </div>
-              <Button onClick={() => handleAddToWatchlist(stock)} className='btn'>+ Add to Watchlist</Button>
-            </Card>
-          ))}
+          {stocksToDisplay.map((stock) => {
+            const isInWatchlist = userWatchlist.includes(stock.ticker);
+            return (
+              <Card key={stock.ticker} className="p-4 rounded-lg flex justify-between items-center gap-2 card border-1">
+                <div className='text-center'>
+                  <p className="font-bold text-0">{stock.ticker}</p>
+                  <p className="text--1">{stock.name}</p>
+                </div>
+                <TooltipButton
+                  onClick={() => handleAddToWatchlist(stock)}
+                  className='btn'
+                  disabled={isInWatchlist}
+                  tooltipContent={isInWatchlist ? 'Already in your watchlist' : 'Add this stock to your watchlist'}
+                >
+                  {isInWatchlist ? 'In Watchlist' : '+ Add to Watchlist'}
+                </TooltipButton>
+              </Card>
+            );
+          })}
         </div>
       )}
     </div>
+    </TooltipProvider>
   );
 };
 

@@ -36,7 +36,7 @@ const LearnPage = () => {
             checked={flashcardMode}
             onCheckedChange={setFlashcardMode}
           />
-          <Label htmlFor="flashcard-mode">Flashcard Mode</Label>
+          <Label htmlFor="flashcard-mode">Quiz Mode</Label>
         </div>
       </div>
 
@@ -60,7 +60,7 @@ const LearnPage = () => {
                   <CardTitle className="card-title capitalize" data-testid={`term-title-${term}`}>{term}</CardTitle>
                 </CardHeader>
                 <CardContent className="card-content">
-                  <p>{definition}</p>
+                  <p className="mx-6 my-2">{definition}</p>
                 </CardContent>
               </Card>
             ))}

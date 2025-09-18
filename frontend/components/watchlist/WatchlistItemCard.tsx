@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { MiniChart } from '@/components/charts/mini-chart';
+import { TooltipButton } from "@/components/ui/tooltip-button";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 interface WatchlistItemCardProps {
   stock: WatchlistItem;
@@ -15,6 +17,7 @@ interface WatchlistItemCardProps {
 export const WatchlistItemCard = ({ stock, onDelete, onClick, index }: WatchlistItemCardProps) => {
   const colorVar = `--watchlist-item-${(index % 5) + 1}`;
   return (
+    <TooltipProvider>
     <Card className="mb-2 cursor-pointer card" onClick={() => onClick(stock)} style={{ background: `var(${colorVar})` }}>
       <CardContent className="p-4 flex items-center justify-between">
         <div className="flex flex-col">
@@ -32,11 +35,12 @@ export const WatchlistItemCard = ({ stock, onDelete, onClick, index }: Watchlist
               {stock.error ? 'N/A' : `${stock.change.toFixed(2)}%`}
             </p>
           </div>
-          <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); onDelete(stock.ticker); }} aria-label="delete item">
+          <TooltipButton variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); onDelete(stock.ticker); }} aria-label="delete item" tooltipContent="Remove from watchlist">
             <Trash2 className="h-4 w-4" />
-          </Button>
+          </TooltipButton>
         </div>
       </CardContent>
     </Card>
+    </TooltipProvider>
   );
 };

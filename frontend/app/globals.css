@@ -336,7 +336,8 @@ h4 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--space-3xs);
+  padding: var(--space-2xs);
+  padding-left: var(--space-s);
   position: sticky;
   bottom: var(--space-2xs);
   border-radius: var(--space-l);
