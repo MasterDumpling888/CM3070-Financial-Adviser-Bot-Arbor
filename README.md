@@ -69,6 +69,19 @@ The backend uses Firebase Firestore for data persistence. You will need to creat
     - Rename the downloaded JSON file to `serviceAccountKey.json`.
     - Place this file in the `backend/` directory.
 
+### Frontend Environment Variables
+
+Create a `.env.local` file in the `frontend` directory and add the following content. You will get these values from your Firebase project settings.
+
+```bash
+NEXT_PUBLIC_FIREBASE_API_KEY=""
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=""
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=""
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=""
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=""
+NEXT_PUBLIC_FIREBASE_APP_ID=""
+```
+
 ### Running the Application
 
 #### Backend
@@ -91,7 +104,7 @@ The backend uses Firebase Firestore for data persistence. You will need to creat
     pip install -r requirements.txt
     ```
 
-3.  **Run the FastAPI server:**
+4.  **Run the FastAPI server:**
     ```bash
     uvicorn main:app --reload
     ```
