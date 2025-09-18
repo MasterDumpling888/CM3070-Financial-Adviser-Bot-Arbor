@@ -7,6 +7,7 @@ pandas
 numpy
 torch
 stable_baselines3
+alpaca_trade_api
 finrl
 stockstats
 yfinance
