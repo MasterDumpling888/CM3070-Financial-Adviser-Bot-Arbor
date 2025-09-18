@@ -60,7 +60,7 @@ const FinancialFlashcards = () => {
   return (
     <Card className="card">
       <CardHeader className="card-header">
-        <CardTitle className=" card-title capitalize">{currentCard.term}</CardTitle>
+        <CardTitle className=" card-title capitalize ">{currentCard.term}</CardTitle>
       </CardHeader>
       <CardContent className="card-content">
         <div className="grid grid-cols-1 gap-4">

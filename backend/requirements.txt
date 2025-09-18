@@ -12,3 +12,9 @@ finrl
 stockstats
 yfinance
 exchange_calendars
+pandas_market_calendars
+lxml
+swig
+wrds
+gymnasium
+git+https://github.com/AI4Finance-Foundation/FinRL.git
