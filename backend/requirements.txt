@@ -11,3 +11,4 @@ alpaca_trade_api
 finrl
 stockstats
 yfinance
+exchange_calendars
