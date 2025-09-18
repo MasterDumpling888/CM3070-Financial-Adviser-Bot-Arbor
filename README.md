@@ -1,4 +1,9 @@
+
+<img width="1584" height="396" alt="Slide 16_9 - 17" src="https://github.com/user-attachments/assets/44917f54-2c74-404d-891d-bad9a59bbca0" />
+
 # Financial Advisor Bot
+## Setup Tutorial
+https://youtu.be/VGD1pPXQCmI
 
 ## Overview
 
