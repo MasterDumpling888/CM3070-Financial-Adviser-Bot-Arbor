@@ -63,29 +63,25 @@ The backend uses Ollama to run the Gemma LLM locally.
 
 #### 2. Firebase
 
-The backend uses Firebase Firestore for data persistence. You will need to create your own Firebase project to get the necessary credentials.
+The backend uses Firebase Firestore for data persistence. You will need to download the admin SDK API key to make it work.
 
-1.  **Create a Firebase project:** Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
-2.  **Enable Firestore:** In your new project, go to the "Firestore Database" section and create a new database in production mode.
-3.  **Generate a private key:**
-    - In your Firebase project, go to **Project settings** (the gear icon next to "Project Overview").
-    - Go to the **Service accounts** tab.
-    - Click on **Generate new private key**. This will download a JSON file with your service account credentials.
-4.  **Add the key to the project:**
-    - Rename the downloaded JSON file to `serviceAccountKey.json`.
-    - Place this file in the `backend/` directory.
+Ideally, the `serviceAccountKey.json` cannot be shared, but for the sake of testing this prototype,the key will be provided separately through a Google drive link, so please ensure that you destroy this key after having test this prototype.Thank you!
 
-### Trade Data
-
-The `trade_data_sp500.csv` file, located in the `backend/inference_engine/` directory, is managed using Git LFS (Large File Storage) due to its size. To download this file, you will need to have Git LFS installed.
-
-1.  **Install Git LFS:** Follow the instructions on the [Git LFS website](https://git-lfs.github.com/) to install it on your machine.
-2.  **Pull the LFS files:** Once Git LFS is installed, run the following command in your terminal to download the large files:
-    ```bash
-    git lfs pull
-    ```
+1.  **Download the `serviceAccountKey.json`:** from the Google Drive link.
+2.  Put it in the `backend/` directory.
 
 ### Running the Application
+
+#### Trade Data
+
+Like the downloading process for the Firebase Admin SDK, please download the trade data environment for the inference engine in work.
+
+Since the trade data is too large to be uploaded to the GitHub repository, and to reduce the complexity of downloading through GitHub LFS, please download the file through a Google Drive link.
+
+https://drive.google.com/file/d/1mGm5O4fFhHW7OwodeU5abVmHN7uvqUxT/view?usp=sharing
+
+1. Download the file from the Google Drive link.
+2. Put in in the `backend/inference_engine` directory
 
 #### Backend
 
