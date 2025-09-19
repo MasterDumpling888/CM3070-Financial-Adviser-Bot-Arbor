@@ -61,6 +61,16 @@ The backend uses Ollama to run the Gemma LLM locally.
     ollama pull gemma3
     ```
 
+#### 2. Trade Data
+**!!!!**
+
+The inference engine acts upon a trade data environment. **You must download this data for the engine to work.**
+
+Please download the data from this link: https://drive.google.com/file/d/1mGm5O4fFhHW7OwodeU5abVmHN7uvqUxT/view?usp=sharing
+
+**!!!!**
+
+
 #### 2. Firebase
 
 The backend uses Firebase Firestore for data persistence. You will need to download the admin SDK API key to make it work.
