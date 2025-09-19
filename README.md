@@ -4,7 +4,7 @@
 
 ## Setup Tutorial
 
-https://youtu.be/VGD1pPXQCmI
+https://youtu.be/PBPzo0C7idY
 
 ## Overview
 
