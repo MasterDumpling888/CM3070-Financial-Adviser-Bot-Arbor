@@ -61,19 +61,9 @@ The backend uses Ollama to run the Gemma LLM locally.
     ollama pull gemma3
     ```
 
-#### 2. Trade Data
-**!!!!**
-
-The inference engine acts upon a trade data environment. **You must download this data for the engine to work.**
-
-Please download the data from this link: https://drive.google.com/file/d/1mGm5O4fFhHW7OwodeU5abVmHN7uvqUxT/view?usp=sharing
-
-**!!!!**
-
-
 #### 2. Firebase
 
-The backend uses Firebase Firestore for data persistence. You will need to download the admin SDK API key to make it work.
+The backend uses Firebase Firestore for data persistence. You will need to download the admin SDK API key to make it work. **You must download this for the project to work.**
 
 Ideally, the `serviceAccountKey.json` cannot be shared, but for the sake of testing this prototype,the key will be provided separately through a Google drive link, so please ensure that you destroy this key after having test this prototype.Thank you!
 
@@ -86,7 +76,7 @@ Ideally, the `serviceAccountKey.json` cannot be shared, but for the sake of test
 
 Like the downloading process for the Firebase Admin SDK, please download the trade data environment for the inference engine in work.
 
-Since the trade data is too large to be uploaded to the GitHub repository, and to reduce the complexity of downloading through GitHub LFS, please download the file through a Google Drive link.
+Since the trade data is too large to be uploaded to the GitHub repository, and to reduce the complexity of downloading through GitHub LFS, please download the file through a Google Drive link. **You must download this data for the engine to work.**
 
 https://drive.google.com/file/d/1mGm5O4fFhHW7OwodeU5abVmHN7uvqUxT/view?usp=sharing
 
@@ -138,3 +128,5 @@ https://drive.google.com/file/d/1mGm5O4fFhHW7OwodeU5abVmHN7uvqUxT/view?usp=shari
     ```
 
 Once both the backend and frontend servers are running, access the application in your browser at `http://localhost:3000`.
+
+**If you need help in setting up this project in your locally machine, please contact me through this email: drachel.lim@gmail.com**
