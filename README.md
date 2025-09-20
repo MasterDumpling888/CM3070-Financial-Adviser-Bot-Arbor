@@ -65,7 +65,9 @@ The backend uses Ollama to run the Gemma LLM locally.
 
 The backend uses Firebase Firestore for data persistence. You will need to download the admin SDK API key to make it work. **You must download this for the project to work.**
 
-Ideally, the `serviceAccountKey.json` cannot be shared, but for the sake of testing this prototype,the key will be provided separately through a Google drive link, so please ensure that you destroy this key after having test this prototype.Thank you!
+Ideally, the `serviceAccountKey.json` cannot be shared, but for the sake of testing this prototype,the key will be provided separately through a Google drive link, so please ensure that you destroy this key after having test this prototype. Thank you!
+
+https://drive.google.com/file/d/1jVj40zvPQjR5hkSxsCbrKoRCmTwd3qKx/view?usp=sharing
 
 1.  **Download the `serviceAccountKey.json`:** from the Google Drive link.
 2.  Put it in the `backend/` directory.
